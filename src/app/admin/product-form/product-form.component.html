@@ -1,0 +1,81 @@
+
+<section fxLayout="row wrap" fxLayoutAlign="space-evenly center" fxLayoutGap=20px>
+  
+ 
+  
+  <mat-card fxFlex="45" fxFlex.xs="100%" >
+    <mat-card-header  fxLayoutAlign="center center" >
+      <mat-card-title>Add New Product</mat-card-title>
+      <mat-card-subtitle>Add a new Product to Stock</mat-card-subtitle>
+    </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="productForm"  autocomplete="off"  (ngSubmit)="AddProduct(productForm.value)" fxLayout="column wrap"
+                 fxLayoutAlign="center center" fxLayoutGap="10px">
+           <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input  matInput  placeholder="Product Name" formControlName="name" id="name">
+                <mat-icon matSuffix>mode_edit</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field> 
+                <mat-label>Price</mat-label>
+                <span matPrefix>₦ &nbsp;</span>
+                <input  matInput  placeholder="0.00" formControlName="price" type="number" min="0.1" name="price">
+                <mat-icon matSuffix>mode_edit</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Category</mat-label>
+                <mat-select placeholder="Select" formControlName="category" required>
+                  <mat-option value="">Option</mat-option>
+                  <mat-option *ngFor="let item of categories$ | async"  [value]="item.id">{{ item.name }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            
+             <mat-form-field *ngIf="productForm.get('category').valid">
+                    <mat-label>Type</mat-label>
+                    <mat-select placeholder="Select"  formControlName="subcategory">
+                      <mat-option value="">Option</mat-option>
+                    </mat-select>
+             </mat-form-field>
+
+             <mat-form-field> <!-- *ngIf="productForm.get('subcategory').valid">-->
+                    <mat-label>Groups</mat-label>
+                    <mat-select placeholder="Select"  formControlName="subcategory">
+                      <mat-option value="">Option</mat-option>
+                   </mat-select>
+             </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Image Url</mat-label>
+                <input  matInput  placeholder="imageUrl" formControlName="imageUrl" id="imageUrl" *ngIf="productForm.get('imageUrl')" >
+                <mat-icon matSuffix>mode_edit</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Description</mat-label>
+                <textarea formControlName="description"  matInput></textarea>
+                <mat-icon matSuffix>mode_edit</mat-icon>
+            </mat-form-field>
+
+            <mat-card-actions>
+              <button  type="submit" mat-raised-button color="primary" [disabled]="!productForm.valid">Save</button>            
+              <button *ngIf="isEdit" type="button" mat-raised-button color="warn" (click)="DeleteProduct()">Delete</button>
+              <button  type="button" mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
+               </mat-card-actions>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  <mat-card class="preview-card" fxFlex="45" *ngIf="productForm.get('name').value || productForm.get('price').value || productForm.get('imageUrl').value" >
+    
+    <img mat-card-image [src]="productForm.get('imageUrl').value">
+    <mat-card-content>
+        <div mat-card-avatar></div>
+        <h2> {{productForm.get('name').value}}</h2>
+        <h3> {{productForm.get('price').value | currency : 'NGN' : '₦'}}</h3>
+    </mat-card-content>
+     
+  </mat-card> 
+  
+</section>

@@ -1,0 +1,43 @@
+<div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="space-between"  fxLayout.lt-sm="column"  >
+  <div fxFlex="20" >
+ <mat-nav-list fxLayout="column">
+   
+    <mat-list-item *ngFor="let item of categories$ | async; last as last">
+     <a matLine> {{ item.name }} </a>
+     <button mat-icon-button (click)="showInfo(link)">
+        <mat-icon>folder</mat-icon>
+     </button>
+     </mat-list-item>
+     <mat-divider></mat-divider>
+    
+    <mat-divider></mat-divider>
+    </mat-nav-list>
+ 
+  </div>
+  <mat-divider [vertical]="true"></mat-divider>
+ <div fxFlex>
+    
+<div 
+fxLayout="row wrap" 
+fxLayout.lt-sm="column" 
+fxLayoutGap="20px grid" 
+fxLayoutAlign="space-between center"> 
+
+<div  fxFlex.lt-sm="100" fxFlex.lt-md="45"   *ngFor="let p of products$ | async">
+   
+
+    <mat-card fxFlexAlign="stretch" class="preview-card">
+      <img  mat-card-image  [src]="p.imageUrl">
+    <mat-card-header>
+      <mat-card-title>{{p.name}}</mat-card-title>
+      <mat-card-subtitle>{{p.price | currency : 'NGN' : '₦'}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions Layout="row" fxLayoutAlign="end center">
+        <button  type="button" mat-raised-button color="primary">Add to Cart</button>       
+    </mat-card-actions>
+  </mat-card>
+ 
+  </div>
+</div>
+</div>
+</div>
